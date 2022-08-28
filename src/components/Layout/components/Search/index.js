@@ -31,7 +31,7 @@ function Search() {
 
         const fetchApi = async () => {
             setLoading(true)
-            
+
             const result = await searchServices.search(debounced)
             setSearchResult(result)
 
@@ -51,46 +51,57 @@ function Search() {
         setShowResult(false)
     }
 
-    return (
-        <HeadlessTippy
-            interactive
-            visible={showResult && searchResult.length > 0}
-            // placement='bottom-start'
-            render={attrs => (
-                <div className={cx('search-result')} tabIndex="-1" {...attrs}>
-                    <PopperWrapper>
-                        <h4 className={cx('search-title')}>
-                            Accounts
-                        </h4>
-                        {searchResult.map(result => (
-                            <AccountItem key={result.id} data={result} />
-                        ))}
-                    </PopperWrapper>
-                </div>
-            )}
-            onClickOutside={handleHideResult}
-        >
-            <div className={cx('search')}>
-                <input
-                    ref={inputRef}
-                    value={serachValue}
-                    placeholder='Search accounts and videos'
-                    spellCheck={false}
-                    onChange={e => setSearchValue(e.target.value)}
-                    onFocus={() => setShowResult(true)}
-                />
-                {!!serachValue && !loading && (
-                    <button className={cx('clear')} onClick={handleClear}>
-                        <FontAwesomeIcon icon={faCircleXmark} />
-                    </button>
-                )}
-                {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
+    const handleChange = e => {
+        const searchValue = e.target.value
+        if (!searchValue.startsWith(' ')) {
+            setSearchValue(searchValue)
+        }
+    }
 
-                <button className={cx('search-btn')}>
-                    <SearchIcon />
-                </button>
-            </div>
-        </HeadlessTippy>
+    return (
+        // Using a wrapper <div> tag around the reference element solves
+        // this by creating a new parentNode context.
+        <div>
+            <HeadlessTippy
+                interactive
+                visible={showResult && searchResult.length > 0}
+                // placement='bottom-start'
+                render={attrs => (
+                    <div className={cx('search-result')} tabIndex="-1" {...attrs}>
+                        <PopperWrapper>
+                            <h4 className={cx('search-title')}>
+                                Accounts
+                            </h4>
+                            {searchResult.map(result => (
+                                <AccountItem key={result.id} data={result} />
+                            ))}
+                        </PopperWrapper>
+                    </div>
+                )}
+                onClickOutside={handleHideResult}
+            >
+                <div className={cx('search')}>
+                    <input
+                        ref={inputRef}
+                        value={serachValue}
+                        placeholder='Search accounts and videos'
+                        spellCheck={false}
+                        onChange={handleChange}
+                        onFocus={() => setShowResult(true)}
+                    />
+                    {!!serachValue && !loading && (
+                        <button className={cx('clear')} onClick={handleClear}>
+                            <FontAwesomeIcon icon={faCircleXmark} />
+                        </button>
+                    )}
+                    {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
+
+                    <button className={cx('search-btn')} onMouseDown={(e) => e.preventDefault()}>
+                        <SearchIcon />
+                    </button>
+                </div>
+            </HeadlessTippy>
+        </div>
     )
 }
 
