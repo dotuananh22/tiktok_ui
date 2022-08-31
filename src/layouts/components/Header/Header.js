@@ -10,6 +10,7 @@ import {
     faCoins,
     faGear,
     faSignOut,
+    faPlus,
 } from '@fortawesome/free-solid-svg-icons'
 import Tippy from '@tippyjs/react'
 import 'tippy.js/dist/tippy.css'
@@ -139,7 +140,10 @@ function Header() {
                     </>
                 ) : (
                     <>
-                        <Button text>Upload</Button>
+                        <Button text>
+                            <FontAwesomeIcon icon={faPlus} className={cx('icon-upload')} />
+                            Upload
+                        </Button>
                         <Button primary>Log in</Button>
                     </>
                 )}

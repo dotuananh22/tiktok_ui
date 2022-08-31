@@ -14,17 +14,17 @@ import styles from './Search.module.scss'
 const cx = classNames.bind(styles)
 
 function Search() {
-    const [serachValue, setSearchValue] = useState('')
+    const [searchValue, setSearchValue] = useState('')
     const [searchResult, setSearchResult] = useState([])
-    const [showResult, setShowResult] = useState(true)
+    const [showResult, setShowResult] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const debounced = useDebounce(serachValue, 500)
+    const debouncedValue = useDebounce(searchValue, 500)
 
     const inputRef = useRef()
 
     useEffect(() => {
-        if (!debounced.trim()) {
+        if (!debouncedValue.trim()) {
             setSearchResult([])
             return
         }
@@ -32,14 +32,14 @@ function Search() {
         const fetchApi = async () => {
             setLoading(true)
 
-            const result = await searchServices.search(debounced)
+            const result = await searchServices.search(debouncedValue)
             setSearchResult(result)
 
             setLoading(false)
         }
 
         fetchApi()
-    }, [debounced])
+    }, [debouncedValue])
 
     const handleClear = () => {
         setSearchValue('')
@@ -83,13 +83,13 @@ function Search() {
                 <div className={cx('search')}>
                     <input
                         ref={inputRef}
-                        value={serachValue}
+                        value={searchValue}
                         placeholder='Search accounts and videos'
                         spellCheck={false}
                         onChange={handleChange}
                         onFocus={() => setShowResult(true)}
                     />
-                    {!!serachValue && !loading && (
+                    {!!searchValue && !loading && (
                         <button className={cx('clear')} onClick={handleClear}>
                             <FontAwesomeIcon icon={faCircleXmark} />
                         </button>

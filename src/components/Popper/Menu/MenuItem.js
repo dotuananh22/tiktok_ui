@@ -21,4 +21,4 @@ MenuItem.propTypes = {
     onClick: PropTypes.func,
 }
 
-export default MenuItem;
+export default MenuItem
