@@ -160,11 +160,9 @@ function Header() {
                             alt="sontungmtp"
                         />
                     ) : (
-                        <>
-                            <button className={cx('more-btn')}>
-                                <FontAwesomeIcon icon={faEllipsisVertical} />
-                            </button>
-                        </>
+                        <button className={cx('more-btn')}>
+                            <FontAwesomeIcon icon={faEllipsisVertical} />
+                        </button>
                     )}
                 </Menu>
             </div>
